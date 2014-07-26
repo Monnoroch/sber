@@ -1,25 +1,28 @@
 var services = {
   currency: {
-    rur: { name: "Рубли" },
-    usd: { name: "Доллары"},
-    eur: { name: "Евро"},
+    rur: { name: "Рубли", icon: "<span class='rur'>p<span>уб.</span></span>" },
+    usd: { name: "Доллары", icon: "$"},
+    eur: { name: "Евро", icon: "€"},
   },
   
   get_money: function(data){
-    var result = "<p>Выдача наличных. В наличии:<br/>";
+    var result;
     var currency;
+    var ul;
+    result = $("<div data-role='collapsible' data-inset='false'  data-collapsed-icon='arrow-r' data-expanded-icon='arrow-d'>")
+      .append( "<h3>Выдача наличных</h3>" )
+      .append( ul = $("<ul data-role='listview'>") )
     for(c in data){
 	if(!data.hasOwnProperty (c) || !this.currency[c] ) continue;
 	
 	currency = data[c];
 	
-	result += this.currency[c].name + ": ";
 	for(var  i = 0; i < currency.length; i++){
-	  result += currency[i].value;
-	  if( i != currency.length-1 ) result += ", ";
+	  ul.append( "<li>" + currency[i].value + " " + this.currency[c].icon +  "</li>" );
 	}
-	result += "<br/>";
     }  
+    ul.listview();
+    result.collapsible( );
 	
     
     return result;
@@ -37,11 +40,11 @@ var Services = function( data ){
   
   return {
     print: function(){
-	var result = "";
+	var result = $("<div>");
 	for(service in data){
 	  if(!data.hasOwnProperty (service) || !services[service] ) continue;
 	  
-	  result += services[service](data[service]);
+	  result.append( services[service](data[service]) );
 	}
 	return result;
     }
