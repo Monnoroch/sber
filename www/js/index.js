@@ -45,16 +45,18 @@ var app = {
       var self = this;
       this.app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
       if ( this.app ) {
-	alert("phonegap");
-	  document.addEventListener('deviceready', this.onDeviceReady, false);
+		// TODO
+	  // document.addEventListener('deviceready', this.onDeviceReady, false);
+	   $(document).ready(function(){
+	      self.onDeviceReady();
+	  })
       } else {
 	alert("web");
 	  $(document).ready(function(){
 	      self.onDeviceReady();
 	  })
       }
-      
-	
+
         window.addEventListener('onorientationchange', this.onOrientationChange);
 
 	document.ontouchmove = function(event){
@@ -236,8 +238,8 @@ var app = {
 		  self.currentInfoId = ui.id;
 		  self.loadInfo( self.currentInfoId );
 		  $.mobile.changePage( "#info");
-	  
-		    
+
+
 		  }	});
 		self.onOrientationChange();
           }
