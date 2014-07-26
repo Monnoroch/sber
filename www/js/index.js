@@ -212,11 +212,11 @@ var app = {
 	  host: this.server + "/sber/data",
 	},
 	success: function(r){
-	  self.data = [];
-	  for(var i = 0; i < 10; i++){
-	    self.data[i] = r[i];
-	  }
-	  //self.data = r;
+	  // self.data = [];
+	  // for(var i = 0; i < 10; i++){
+	  //   self.data[i] = r[i];
+	  // }
+	  self.data = r;
 	  //self.loadInfo( self.currentInfoId );
           function geolocationSuccess(position) {
                 $("#map").maps({
