@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.3.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Сбербанк.Пробки</title>
+    </head>
+    <body>
+	<div data-role="page" id="landing">
+	    <div class="app">
+                <h1>Сбербанк</h1>
+		<a href="#mapapp" class="ui-btn">Начать</a>
+            </div>
+	</div>
+
+	<div data-role="page" id="mapapp">
+
+	  <div class="top-slide-menu">
+	    <fieldset data-role="controlgroup" data-type="horizontal">
+	      <input type="search" name="search" id="search-value" value="" />
+
+	      <select name="service" id="service">
+		  <option value="get_money">Снятие наличных</option>
+		  <option value="put_money">Внесение наличных</option>
+		  <option value="credit">Кредит</option>
+		  <option value="deposit">Вклады</option>
+	      </select>
+
+	      <select name="currency" id="currency">
+		  <option value="rur">RUR</option>
+		  <option value="eur">EUR</option>
+		  <option value="usd">USD</option>
+	      </select>
+
+	      <input type="button" value="Найти" id="search-button">
+	    </fieldset>
+	    
+	    <a href="#" class="ui-btn  ui-icon-bars ui-btn-icon-notext ui-nodisc-icon ui-alt-icon ui-icon-bars">Delete</a>
+	  </div> 
+
+
+	  <div role="main" class="ui-content" id="map"></div>
+	</div>
+
+
+	<div data-role="page" id="info">
+	  <h1 id="name"></h1>
+	  <div id="stars" class="ui-alt-icon ui-nodisc-icon"></div>
+
+	    <div data-role="navbar">
+		<ul> 
+		  <li><a href="#mapapp" data-icon="location">Карта</a></li>
+		  <li><a href="#mapapp" id="route-btn" data-icon="navigation">Маршруты</a></li>
+		  <li><a href="tel:89030615527" data-icon="phone">Позвонить</a></li>
+		  <li><a href="#" data-icon="comment">Оценить</a></li>
+		</ul>
+	    </div>
+	 
+	    <h2>Доступные услуги</h2>
+	    <div class="ui-body" id="description"></div>
+
+	    <h2>Отзывы</h2>
+	    <div class="ui-body ui-body-a ui-corner-all" id="push-comment-form">
+	      <h3> 
+		<div id="set-rating" class=" ui-nodisc-icon" rating="0"><!-- Class added to the wrapper -->
+		  <span index="0" data-mini="true"  class="ui-btn  ui-corner-all ui-icon-star ui-btn-icon-notext ui-btn-inline ui-alt-icon"></span>
+		  <span index="1"  data-mini="true"  class="ui-btn  ui-corner-all ui-icon-star ui-btn-icon-notext ui-btn-inline"></span>
+		  <span index="2"  data-mini="true"  class="ui-btn  ui-corner-all ui-icon-star ui-btn-icon-notext ui-btn-inline"></span>
+		  <span index="3"  data-mini="true"  class="ui-btn  ui-corner-all ui-icon-star ui-btn-icon-notext ui-btn-inline"></span>
+		  <span index="4"  data-mini="true"  class="ui-btn  ui-corner-all ui-icon-star ui-btn-icon-notext ui-btn-inline"></span>
+		  <span index="5"  data-mini="true"  class="ui-btn  ui-corner-all ui-icon-star ui-btn-icon-notext ui-btn-inline"></span>
+		</div>
+	      </h3>
+	      <p><textarea cols="40" rows="8" name="comment" id="set-comment"></textarea></p>
+	      <a id="push-comment" class="ui-btn ui-corner-all ui-icon-arrowreturnthick-1-e">Отправить</a>
+	    </div>
+
+	    <div id="comments"/>
+	    
+	</div>
+
+
+        <!--<script type="text/javascript" src="cordova.js"></script>-->
+        <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="js/jquery.mobile-1.4.3.min.js"></script>
+         <script src="http://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script> 
+        <script type="text/javascript" src="js/services.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/maps.js"></script>
+<!--         <script type="text/javascript" src="js/data.js"></script> -->
+	
+        <script type="text/javascript">
+            app.initialize();
+            $(document).ready(function(){
+                app.onDeviceReady();
+            })
+        </script>
+    </body>
+</html>
