@@ -118,8 +118,7 @@ var app = {
                         }
                     });
             }
-            $("#set-currency").hide();
-	    $("#set-money").hide();
+            $("#set-money").hide();
 	    $("#set-search").hide();
 	    $("#set-service").hide();
             switch( queryParameters.menu ){
@@ -141,6 +140,12 @@ var app = {
             $( "#mapapp" ).jqmData( "url", processedHash.parsed.hash );
         }
     });
+    
+    
+	$("#set-money").on("click", ".last a",function(){
+	  var value = $(this).attr("value");
+	  $("#set-money .ui-controlgroup-controls").empty().append( services.moneySet(value) ).controlgroup("refresh");
+	})
 	//search
 	$("#search-button").click(function(){
 	    var val = parseFloat( $("#search-value").val() );
@@ -251,6 +256,8 @@ var app = {
       $("#services")
 	.empty()
 	.append( Services(info.services).print() );
+	
+	
 
 
 
