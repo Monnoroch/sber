@@ -81,18 +81,50 @@ var app = {
         //this.onOrientationChange();
 
 	//search interface
-	$("#service").change(function(){
-	  switch($("#service").val()){
-	    case "get_money":
-	    case "put_money":
-	      $("#currency-button").show();
-	      break;
-	    default:
-	      $("#currency-button").hide();
-	      break;
+	$("#set-currency").hide();
+	$("#set-money").hide();
+	$("#set-search").hide();
+	
+	$("#set-service").on("click", "a",function(){
+	  var val = $(this).attr("value");
+	  $("#set-service").hide();
+	  
+	  if(val == "search"){
+	    $("#set-search").show();
 	  }
-	})
-
+	  else{
+	    $("#set-currency").show();
+	    $("#set-service").attr("value", val);
+	  }
+	});
+	$("#set-currency").on("click", "a",function(){
+	  var val = $(this).attr("value");
+	  if(val == "back"){
+	      $("#set-service").show();
+	      $("#set-currency").hide();
+	  }else{
+	    $("#set-currency").hide();
+	    $("#set-money").show();
+	    $("#set-currency").attr("value", val);
+	  }
+	});
+	$("#set-money").on("click", "a",function(){
+	  var val = $(this).attr("value");
+	  if(val == "back"){
+	      $("#set-money").hide();
+	      $("#set-currency").show();
+	  }else{
+	    $("#set-money").attr("value", val);
+	  }
+	});
+	$("#set-search").on("click", "a",function(){
+	  var val = $(this).attr("value");
+	  if(val == "back"){
+	      $("#set-search").hide();
+	      $("#set-service").show();
+	  }
+	});
+      
 	//search
 	$("#search-button").click(function(){
 	    var val = parseFloat( $("#search-value").val() );
@@ -137,8 +169,8 @@ var app = {
 	    $(".top-slide-menu").height( event.pageY );
         });
 	$(".top-slide-menu").on("touchend", ".ui-icon-bars", function(event) {
-	    var maxheight = parseFloat( $(".top-slide-menu").css("max-height") )
-	    var minheight = parseFloat( $(".top-slide-menu").css("min-height") )
+	    var maxheight = Math.floor(parseFloat( $(".top-slide-menu").css("max-height") ))
+	    var minheight = Math.floor(parseFloat( $(".top-slide-menu").css("min-height") ))
 	    var y;
 	    var h = maxheight;
 
@@ -146,8 +178,7 @@ var app = {
 	    event = event.originalEvent.touches[0];
 
 	    y = $(".top-slide-menu").height();
-
-	    if( (d > 0) && (y > 0.2*h) || (d < 0) &&  ( y > 0.8*h ) /*(y - minheight) > (maxheight - y)*/ ){
+	    if( (d > 0) && (y > 0.2*h) || (d < 0) &&  ( y > 0.8*h ) || (y == minheight) /*(y - minheight) > (maxheight - y)*/ ){
 	      $(".top-slide-menu").animate({height : maxheight});
 	    }
 	    else{

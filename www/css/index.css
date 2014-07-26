@@ -143,29 +143,31 @@ h1 {
 #mapapp .ui-controlgroup-controls{
     width: 100%;
 }
-#mapapp .ui-header .ui-input-search{
-  margin-right: -142px;
+#set-search .ui-input-search{
+  margin-right: -85px;
   padding-right: 0;
-  display: inline-block;
+  display: block;
   margin-top: 0;
   margin-bottom: 0;
   width: 100%;
-  vertical-align: middle;
+/*   vertical-align: middle; */
   box-shadow: none;
   text-shadow: none;
+  height: 3.5em;
+  float:left;
 }
 #mapapp .ui-header .ui-select{
-  display: inline-block;
+  display: block;
   float: none;
   margin-right: -3px;
 }
-#mapapp .ui-header .ui-btn{
+#set-search #search-button{
   display: inline-block;
   float: none;
   margin-right: -2px;
 }
 
-#mapapp .ui-header .ui-input-search input{
+#set-search .ui-input-search input{
   padding-top: 8px;
   padding-bottom: 8px;
 }
@@ -279,7 +281,7 @@ span.rur span:before { content: '\2013'; }
   padding: 0;
   height: 2.3em;
   overflow: hidden;
-  max-height: 10.5em;
+  max-height: 25em;
   min-height: 2.3em;
 }
 .top-slide-menu .ui-icon-bars{
@@ -309,4 +311,17 @@ span.rur span:before { content: '\2013'; }
   left: 0.5em;
   right: 0.5em;
   overflow: hidden;
+}
+
+#set-money div{
+  width: 50%;
+  float: left;
+/*   width: calc(50% - 100px); */
+/*   display: inline-block; */
+}
+#set-money div:last-child a{
+  border-left-width: 0; 
+}
+#set-money div a:last-child{
+  border-bottom-width: 1px; 
 }
