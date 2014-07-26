@@ -88,7 +88,8 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
       var self = this;
-    $.mobile.document
+
+    $(document)
     .on( "pagechange", function( event, data ) {
 		if( data.options.openmenu ){
 		  $("#menu").panel("open");
@@ -147,12 +148,6 @@ var app = {
             $( "#mapapp" ).jqmData( "url", processedHash.parsed.hash );
         }
     });
-    
-    
-// 	$("#set-money").on("click", ".last a",function(){
-// 	  var value = $(this).attr("value");
-// 	  $("#set-money .ui-controlgroup-controls").empty().append( services.moneySet(value) ).controlgroup("refresh");
-// 	})
 	$("#set-money").on("click", ".value", function(){
 	  var value = Number( $(this).attr("value") );
 	  var currency = $("#set-money").attr("currency");
@@ -174,6 +169,7 @@ var app = {
 	    $("#map").maps("getMoney", value, currency);
 	    //$("#menu").panel("close");
 	  }
+
 	})
 	//search
 	$("#search-button").click(function(){
@@ -251,8 +247,8 @@ var app = {
       $("#services")
 	.empty()
 	.append( Services(info.services).print() );
-	
-	
+
+
 
 
 
@@ -268,11 +264,11 @@ var app = {
 	  host: this.server + "/sber/data",
 	},
 	success: function(r){
-	  self.data = [];
-	  for(var i = 0; i < 10; i++){
-	    self.data[i] = r[i];
-	  }
-	  //self.data = r;
+	  // self.data = [];
+	  // for(var i = 0; i < 10; i++){
+	  //   self.data[i] = r[i];
+	  // }
+	  self.data = r;
 	  //self.loadInfo( self.currentInfoId );
           function geolocationSuccess(position) {
                 $("#map").maps({
