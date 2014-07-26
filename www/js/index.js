@@ -57,7 +57,7 @@ var app = {
 	  })
       }
 
-        window.addEventListener('onorientationchange', this.onOrientationChange);
+        window.addEventListener('orientationchange', this.onOrientationChange);
 
 	document.ontouchmove = function(event){
 	  if( $.mobile.activePage.attr('id') == "mapapp" ){

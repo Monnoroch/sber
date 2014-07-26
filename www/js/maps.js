@@ -7,7 +7,7 @@ $.widget( "custom.maps", {
     var self = this;
     ymaps.ready(init);
 
-    function init() {     
+    function init() {
         self.map = new ymaps.Map(self.element[0], {
             center: self.options.center,
             zoom: 15,
@@ -20,6 +20,7 @@ $.widget( "custom.maps", {
 
         self.map.geoObjects.add(placemark);
         self.me = self.map.geoObjects.indexOf(placemark);
+        self.getService("get_money");
     }
   },
   _setOption: function( key, value ) {
@@ -33,7 +34,7 @@ $.widget( "custom.maps", {
       })
     }
   },
-  
+
   getMoney: function(amount, type) {
     var items;
 
@@ -54,6 +55,10 @@ $.widget( "custom.maps", {
 
       return item;
     }
+
+    var data = this.options.data.filter(function(item) {
+
+    })
 
     items = $.map(this.options.data, hasAmount);
 
@@ -114,10 +119,10 @@ $.widget( "custom.maps", {
           iconContent = "<img src='img/bank.png'/ style='width:13px;height:13px;'>"
         if(item.services.main === "Банкомат")
           iconContent = "<img src='img/ATM.png'/ style='width:13px;height:13px;'>"
-        
+
         placemark = new ymaps.Placemark(position, {
             iconContent: iconContent,
-            // hintContent: office.address, 
+            // hintContent: office.address,
             balloonContent: self.createHintContent(item, id)
         }, {
           iconColor: (item.load.color == "yellow") ? "orange" : item.load.color,
@@ -169,7 +174,7 @@ $.widget( "custom.maps", {
         return prev + ", " + ch + cur.value.printInt();
       }, "");
       return money.slice(2);
-    }    
+    }
 
     if(money && money.usd)
       container.append($("<p/>").append(printValues("usd", "$")));
