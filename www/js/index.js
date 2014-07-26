@@ -24,6 +24,17 @@ Number.prototype.printInt = function (){
   return this.printFloat(0);
 }
 
+var processHash = function( url ) {
+    var parsed = $.mobile.path.parseUrl( url ),
+        hashQuery = parsed.hash.split( "?" );
+    return {
+        parsed: parsed,
+        cleanHash: ( hashQuery.length > 0 ? hashQuery[ 0 ] : "" ),
+        queryParameters: ( hashQuery.length > 1 ? hashQuery[ 1 ] : "" )
+    };
+};
+
+
 var app = {
 
     server: "http://msymbolics.com:9900",
@@ -77,22 +88,59 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
       var self = this;
-
-        //this.onOrientationChange();
-
-	//search interface
-	$("#service").change(function(){
-	  switch($("#service").val()){
-	    case "get_money":
-	    case "put_money":
-	      $("#currency-button").show();
-	      break;
-	    default:
-	      $("#currency-button").hide();
-	      break;
-	  }
-	})
-
+    $.mobile.document
+    .on( "pagebeforechange", function( event, data ) {
+        // When we go from #secondary-page to #secondary-page we wish to indicate
+        // that a transition to the same page is allowed.
+        if ( $.type( data.toPage ) === "string" &&
+            data.options.fromPage &&
+            data.options.fromPage.attr( "id" ) === "mapapp" &&
+            processHash( data.toPage ).cleanHash === "#mapapp" ) {
+                data.options.allowSamePageTransition = true;
+		if( data.options.link ){
+		  data.options.link.removeClass("ui-btn-active");
+		}
+        }
+    })
+    .on( "pagecontainerbeforetransition", function( event, data ) {
+        var queryParameters = {},
+            processedHash = processHash( data.absUrl );
+        // We only modify default behaviour when navigating to the secondary page
+        if ( processedHash.cleanHash === "#mapapp" ) {
+            // Assemble query parameters object from the query string
+            if ( processedHash.queryParameters ) {
+                $.each( processedHash.queryParameters.split( "&" ),
+                    function( index, value ) {
+                        var pair = value.split( "=" );
+                        if ( pair.length > 0 && pair[ 0 ] ) {
+                            queryParameters[ pair[ 0 ] ] =
+                                ( pair.length > 1 ? pair[ 1 ] : true );
+                        }
+                    });
+            }
+            $("#set-currency").hide();
+	    $("#set-money").hide();
+	    $("#set-search").hide();
+	    $("#set-service").hide();
+            switch( queryParameters.menu ){
+	      case "search":
+		$("#set-search").show();
+		break;
+	      case "get_money":
+	      case "put_money":
+		$("#set-money").show();
+		break;
+	      default:
+		$("#set-service").show();
+		break;
+	    }
+            // Set the title from the query parameters
+            //$( "#section" ).text( queryParameters.section );
+            // Set the url of the page - this will be used by navigation to set the
+            // URL in the location bar
+            $( "#mapapp" ).jqmData( "url", processedHash.parsed.hash );
+        }
+    });
 	//search
 	$("#search-button").click(function(){
 	    var val = parseFloat( $("#search-value").val() );
@@ -106,10 +154,10 @@ var app = {
 	  $("#set-rating .ui-btn").each(function(){
 	    var i = Number($(this).attr("index"));
 	    if(i <= index){
-		$(this).addClass("ui-alt-icon")
+		$(this).addClass("ui-green-icon")
 	    }
 	    else{
-		$(this).removeClass("ui-alt-icon")
+		$(this).removeClass("ui-green-icon")
 	    }
 	  })
 	  $("#set-rating").attr( "rating", index );
@@ -136,9 +184,13 @@ var app = {
 	    d = event.pageY - $(".top-slide-menu").height();
 	    $(".top-slide-menu").height( event.pageY );
         });
+	$(".top-slide-menu").on("click", ".ui-icon-bars", function(event) {
+	  var maxheight = Math.floor(parseFloat( $(".top-slide-menu").css("max-height") ))
+	  $(".top-slide-menu").animate({height : maxheight});
+	});
 	$(".top-slide-menu").on("touchend", ".ui-icon-bars", function(event) {
-	    var maxheight = parseFloat( $(".top-slide-menu").css("max-height") )
-	    var minheight = parseFloat( $(".top-slide-menu").css("min-height") )
+	    var maxheight = Math.floor(parseFloat( $(".top-slide-menu").css("max-height") ))
+	    var minheight = Math.floor(parseFloat( $(".top-slide-menu").css("min-height") ))
 	    var y;
 	    var h = maxheight;
 
@@ -146,8 +198,7 @@ var app = {
 	    event = event.originalEvent.touches[0];
 
 	    y = $(".top-slide-menu").height();
-
-	    if( (d > 0) && (y > 0.2*h) || (d < 0) &&  ( y > 0.8*h ) /*(y - minheight) > (maxheight - y)*/ ){
+	    if( (d > 0) && (y > 0.2*h) || (d < 0) &&  ( y > 0.8*h ) || (y == minheight) /*(y - minheight) > (maxheight - y)*/ ){
 	      $(".top-slide-menu").animate({height : maxheight});
 	    }
 	    else{
@@ -175,7 +226,8 @@ var app = {
     loadInfo: function(id){
       var info = this.data[id];
       var stars = Math.round( info.stars + 1 );
-      $("#name").text(info.address);
+      $("#main-type").text(info.services.main);
+      $("#address").text(info.address);
       $("#stars").empty();
       $("#comments").empty();
 
@@ -187,7 +239,7 @@ var app = {
 	$("#comments")
 	  .append( $("<div class='ui-body ui-body-a ui-corner-all'>" )
 	    .append( $("<h3>")
-	      .append( stars = $("<div class='comment-rating ui-alt-icon ui-nodisc-icon'>") )
+	      .append( stars = $("<div class='comment-rating ui-green-icon ui-nodisc-icon'>") )
 	     )
 	    .append( "<p>" + info.comments[i].text.replace("\n", "<br/>") + "</p>" )
 	   )
@@ -196,7 +248,9 @@ var app = {
 	}
       }
 
-      $("#description").html( Services(info.services).print() );
+      $("#services")
+	.empty()
+	.append( Services(info.services).print() );
 
 
 
