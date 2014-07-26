@@ -62,7 +62,7 @@ var app = {
 	      self.onDeviceReady();
 	  })
       } else {
-	alert("web");
+	//alert("web");
 	  $(document).ready(function(){
 	      self.onDeviceReady();
 	  })
@@ -89,6 +89,11 @@ var app = {
     onDeviceReady: function() {
       var self = this;
     $.mobile.document
+    .on( "pagechange", function( event, data ) {
+		if( data.options.openmenu ){
+		  $("#menu").panel("open");
+		}
+    })
     .on( "pagebeforechange", function( event, data ) {
         // When we go from #secondary-page to #secondary-page we wish to indicate
         // that a transition to the same page is allowed.
@@ -96,6 +101,7 @@ var app = {
             data.options.fromPage &&
             data.options.fromPage.attr( "id" ) === "mapapp" &&
             processHash( data.toPage ).cleanHash === "#mapapp" ) {
+		data.options.openmenu = true;
                 data.options.allowSamePageTransition = true;
 		if( data.options.link ){
 		  data.options.link.removeClass("ui-btn-active");
@@ -133,6 +139,7 @@ var app = {
 		$("#set-service").show();
 		break;
 	    }
+	    
             // Set the title from the query parameters
             //$( "#section" ).text( queryParameters.section );
             // Set the url of the page - this will be used by navigation to set the
@@ -142,9 +149,31 @@ var app = {
     });
     
     
-	$("#set-money").on("click", ".last a",function(){
-	  var value = $(this).attr("value");
-	  $("#set-money .ui-controlgroup-controls").empty().append( services.moneySet(value) ).controlgroup("refresh");
+// 	$("#set-money").on("click", ".last a",function(){
+// 	  var value = $(this).attr("value");
+// 	  $("#set-money .ui-controlgroup-controls").empty().append( services.moneySet(value) ).controlgroup("refresh");
+// 	})
+	$("#set-money").on("click", ".value", function(){
+	  var value = Number( $(this).attr("value") );
+	  var currency = $("#set-money").attr("currency");
+	  $("#set-money").attr("value", value);
+	  
+	  if(value && currency){
+	    $("#map").maps("getMoney", value, currency);
+	    //$("#menu").panel("close");
+	  }
+	})
+	$("#set-money").on("click", ".currency", function(){
+	  var value = Number( $("#set-money").attr("value") );
+	  var currency = $(this).attr("value")
+	  $("#set-money").attr("currency", currency);
+	  
+	  $("#set-money .ui-controlgroup-controls").empty().append( services.moneySet(currency) ).controlgroup().controlgroup("refresh");
+	  
+	  if(value && currency){
+	    $("#map").maps("getMoney", value, currency);
+	    //$("#menu").panel("close");
+	  }
 	})
 	//search
 	$("#search-button").click(function(){
@@ -176,41 +205,7 @@ var app = {
 	  self.addComment(self.currentInfoId, rating, text);
 	})
 
-	//top slider menu
-	var mouseTracking = false;
-	var d = 0;
-	$("#map").on("touchstart",function(){
-	  var minheight = parseFloat( $(".top-slide-menu").css("min-height") )
-	  $(".top-slide-menu").animate({height : minheight});
-	})
-	$(".top-slide-menu").on('touchmove', ".ui-icon-bars", function(event) {
-	    event.preventDefault();
-	    event = event.originalEvent.touches[0];
-	    d = event.pageY - $(".top-slide-menu").height();
-	    $(".top-slide-menu").height( event.pageY );
-        });
-	$(".top-slide-menu").on("click", ".ui-icon-bars", function(event) {
-	  var maxheight = Math.floor(parseFloat( $(".top-slide-menu").css("max-height") ))
-	  $(".top-slide-menu").animate({height : maxheight});
-	});
-	$(".top-slide-menu").on("touchend", ".ui-icon-bars", function(event) {
-	    var maxheight = Math.floor(parseFloat( $(".top-slide-menu").css("max-height") ))
-	    var minheight = Math.floor(parseFloat( $(".top-slide-menu").css("min-height") ))
-	    var y;
-	    var h = maxheight;
-
-	    event.preventDefault();
-	    event = event.originalEvent.touches[0];
-
-	    y = $(".top-slide-menu").height();
-	    if( (d > 0) && (y > 0.2*h) || (d < 0) &&  ( y > 0.8*h ) || (y == minheight) /*(y - minheight) > (maxheight - y)*/ ){
-	      $(".top-slide-menu").animate({height : maxheight});
-	    }
-	    else{
-	      $(".top-slide-menu").animate({height : minheight});
-	    }
-	});
-
+	
 	$("#route-btn").click(function(){
                 $("#map").maps("addRoute", self.data[self.currentInfoId])
         })
@@ -304,7 +299,7 @@ var app = {
 		  }	});
 		self.onOrientationChange();
           }
-	  navigator.geolocation.getCurrentPosition(geolocationSuccess, geolocationError);
+	  navigator.geolocation.getCurrentPosition(geolocationSuccess, geolocationError,{timeout: 10000});
 	}
       })
     },

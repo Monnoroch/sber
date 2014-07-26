@@ -49,17 +49,17 @@ var services = {
 	  result = result.add(c);
 	}
 	if( val[i] == "more" ){
-	  c.append( "<a href='#' class='ui-btn ui-corner-all half' value='" + val[i] + "'>Больше</a>" );
+	  c.append( "<a href='#' class='ui-btn ui-corner-all value' value='" + val[i] + "'>Больше</a>" );
 	}else{
-	  c.append( "<a href='#' class='ui-btn ui-corner-all half' value='" + val[i] + "'>" + val[i].printInt() +  "</a>" );
+	  c.append( "<a href='#' class='ui-btn ui-corner-all value' value='" + val[i] + "'>" + val[i].printInt() +  "</a>" );
 	}
 	
       }
       
-      result = result.add( c = $("<div/>", {class: "last"}) )
+      //result = result.add( c = $("<div/>", {class: "last"}) )
       for(i in this.currency){
 	  if(!this.currency.hasOwnProperty (i) ) continue;
-	  c.append( "<a href='#' class='ui-btn ui-corner-all' value='" + i + "'>" + this.currency[i].name + "</a>" );
+	  result = result.add( "<a href='#' class='ui-btn ui-corner-all currency' value='" + i + "'>" + this.currency[i].name + "</a>" );
       }
       return result;
       
