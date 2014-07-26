@@ -109,6 +109,11 @@ $.widget( "custom.maps", {
         route.options.set( "wayPointStartContentSize", [10, 10])
         route.options.set( "wayPointStartIconImageSize", [26, 46])
         route.options.set( "wayPointStartIconImageOffset", [-25, -46])
+        route.options.set( "wayPointFinishIconLayout", "default#image");
+        route.options.set( "wayPointFinishIconImageHref", "img/transparent-icon.png");
+        route.options.set( "wayPointFinishContentSize", [10, 10])
+        route.options.set( "wayPointFinishIconImageSize", [26, 46])
+        route.options.set( "wayPointFinishIconImageOffset", [-25, -46])
         //    wayPointStartIconImageHref: 'examples/maps/ru/multiroute_custom_icon_layout/images/start_point.png'
         route.properties.myid = "me";
         route.properties.tag = "route";
