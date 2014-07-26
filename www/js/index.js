@@ -27,6 +27,7 @@ Number.prototype.printInt = function (){
 var app = {
 
     server: "http://msymbolics.com:9900",
+    gate: "",
 
     data: {},
 
@@ -41,7 +42,13 @@ var app = {
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
+	if( device.version ) {
+	  document.addEventListener('deviceready', this.onDeviceReady, false);
+	}
+	else{
+	  document.addEventListener('ready', this.onDeviceReady, false);
+	}
+	
         window.addEventListener('onorientationchange', this.onOrientationChange);
 
 	document.ontouchmove = function(event){
