@@ -24,6 +24,14 @@ $.widget( "custom.maps", {
         self.clusterer = new ymaps.Clusterer({minClusterSize: 5});
         self.map.geoObjects.add(self.clusterer);
 
+        self.element.on( "click", ".hint-container", function() {
+          console.log("onclick")
+          var id = $(this).attr("data-id");
+          self.map.balloon.close(true);
+          self._trigger("onOpen", self, {id: id});
+
+        });
+
         self.getService("get_money");
     }
   },
@@ -198,13 +206,7 @@ $.widget( "custom.maps", {
         self.clusterer.add(placemark);
     });
 
-    $( "#map" ).on( "click", ".hint-container", function() {
-      console.log("onclick")
-      var id = $(this).attr("data-id");
-      self.map.balloon.close(true);
-      self._trigger("onOpen", self, {id: id});
 
-    });
     // $( "#map" ).on( "click", ".ymaps-svg-icon", function() {
     //   var id = $(".hint-container", $(this)).attr("data-id");
     //   var balloon;

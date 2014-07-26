@@ -88,7 +88,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
       var self = this;
-    $.mobile.document
+    $(document)
     .on( "pagebeforechange", function( event, data ) {
         // When we go from #secondary-page to #secondary-page we wish to indicate
         // that a transition to the same page is allowed.
@@ -140,8 +140,8 @@ var app = {
             $( "#mapapp" ).jqmData( "url", processedHash.parsed.hash );
         }
     });
-    
-    
+
+
 	$("#set-money").on("click", ".last a",function(){
 	  var value = $(this).attr("value");
 	  $("#set-money .ui-controlgroup-controls").empty().append( services.moneySet(value) ).controlgroup("refresh");
@@ -256,8 +256,8 @@ var app = {
       $("#services")
 	.empty()
 	.append( Services(info.services).print() );
-	
-	
+
+
 
 
 
