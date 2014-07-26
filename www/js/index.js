@@ -27,7 +27,7 @@ Number.prototype.printInt = function (){
 var app = {
 
     server: "http://msymbolics.com:9900",
-    gate: "",
+    gate: "/sber/gate.php?",
 
     data: {},
 
@@ -42,12 +42,18 @@ var app = {
     // Bind any events that are required on startup. Common events are:
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
-	if( device.version ) {
+      var self = this;
+      this.app = document.URL.indexOf( 'http://' ) === -1 && document.URL.indexOf( 'https://' ) === -1;
+      if ( this.app ) {
+	alert("phonegap");
 	  document.addEventListener('deviceready', this.onDeviceReady, false);
-	}
-	else{
-	  document.addEventListener('ready', this.onDeviceReady, false);
-	}
+      } else {
+	alert("web");
+	  $(document).ready(function(){
+	      self.onDeviceReady();
+	  })
+      }
+      
 	
         window.addEventListener('onorientationchange', this.onOrientationChange);
 
@@ -70,15 +76,7 @@ var app = {
     onDeviceReady: function() {
       var self = this;
 
-        $("#map").maps({
-	  onOpen: function(e, ui){
-
-	    self.currentInfoId = ui.id;
-	    self.loadInfo( self.currentInfoId );
-	    $.mobile.changePage( "#info");
-	  }
-	});
-        this.onOrientationChange();
+        //this.onOrientationChange();
 
 	//search interface
 	$("#service").change(function(){
@@ -206,7 +204,7 @@ var app = {
       var self = this;
       $.ajax({
 	type: "GET",
-	url: this.server + "/sber/data",
+	url: this.app?(this.server + "/sber/data"):(this.gate),
 	dataType: "json",
 	data: {
 	  host: this.server + "/sber/data",
@@ -221,11 +219,27 @@ var app = {
           function geolocationSuccess(position) {
                 $("#map").maps({
                         data: self.data,
-                        center: [position.coords.latitude, position.coords.longitude]
+                        center: [position.coords.latitude, position.coords.longitude],
+			onOpen: function(e, ui){
+
+			self.currentInfoId = ui.id;
+			self.loadInfo( self.currentInfoId );
+			$.mobile.changePage( "#info");
+		      }
                 });
+		self.onOrientationChange();
           }
           function geolocationError() {
-                $("#map").maps({ data: self.data, center: [55.753559, 37.609218]});
+                $("#map").maps({ data: self.data, center: [55.753559, 37.609218],
+		  onOpen: function(e, ui){
+
+		  self.currentInfoId = ui.id;
+		  self.loadInfo( self.currentInfoId );
+		  $.mobile.changePage( "#info");
+	  
+		    
+		  }	});
+		self.onOrientationChange();
           }
 	  navigator.geolocation.getCurrentPosition(geolocationSuccess, geolocationError);
 	}
@@ -255,7 +269,7 @@ var app = {
 
       $.ajax({
 	type: "GET",
-	url: data.host,
+	url: this.app?(data.host):(this.gate),
 	dataType: "json",
 	data: data,
 	success: function(r){
