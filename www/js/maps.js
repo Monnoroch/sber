@@ -44,7 +44,7 @@ $.widget( "custom.maps", {
         });
 
         self.map.events.add('balloonopen', function(e){
-          $("[data-role='button']").button();
+          $(".hint-container .map-nav-btn").button();
         })
 
         self.getService("get_money");
@@ -279,7 +279,7 @@ $.widget( "custom.maps", {
           // Определим интерактивную область над картинкой.
           iconShape: {
               type: 'Rectangle',
-              coordinates: [ [0 - 5, 0 - 5], [34 + 5, 41 + 5] ]
+              coordinates: [ [0 - 27, 0 - 31], [27, 31] ]
           },
           //iconColor: (item.load.color == "yellow") ? "orange" : item.load.color,
           hideIconOnBalloonOpen: false,

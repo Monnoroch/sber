@@ -39,50 +39,52 @@
 	</div>
 
 	<div data-role="page" id="mapapp">
-
-	  <div class="top-slide-menu">
-
-	    <fieldset data-role="controlgroup" id="set-service">
-		  <a href="#mapapp?menu=get_money" data-transition="none" class="ui-btn ui-corner-all" value="get_money">Снять наличные</a>
-		  <a href="#mapapp?menu=put_money" data-transition="none" class="ui-btn ui-corner-all" value="put_money">Внести наличные</a>
-		  <a href="#mapapp?menu=credit" data-transition="none" class="ui-btn ui-corner-all">Кредит</a>
-		  <a href="#mapapp?menu=deposit" data-transition="none" class="ui-btn ui-corner-all">Вклады</a>
-		  <a href="#mapapp?menu=search" data-transition="none" class="ui-btn ui-corner-all" value="search">Поиск</a>
-	    </fieldset>
-	    <fieldset data-role="controlgroup" id="set-money">
-	      <div>
-		  <a href="#" class="ui-btn ui-corner-all half" value="1000">1 000</a>
-		  <a href="#" class="ui-btn ui-corner-all half" value="5000">5 000</a>
-		  <a href="#" class="ui-btn ui-corner-all half" value="10000">10 000</a>
-		  <a href="#" class="ui-btn ui-corner-all half" value="20000">20 000</a>
-		  <a href="#" class="ui-btn ui-corner-all half" value="50000">50 000</a>
-	      </div>
-	      <div>
-		  <a href="#" class="ui-btn ui-corner-all half" value="100000">100 000</a>
-		  <a href="#" class="ui-btn ui-corner-all half" value="200000">200 000</a>
-		  <a href="#" class="ui-btn ui-corner-all half" value="500000">500 000</a>
-		  <a href="#" class="ui-btn ui-corner-all half" value="1000000">1 000 000</a>
-		  <a href="#" class="ui-btn ui-corner-all half" value="more">Больше</a>
-	      </div>
-	      <div class="last" id="set-currency">
-		  <a href="#" class="ui-btn ui-corner-all" value="rur">Рубли</a>
-		  <a href="#" class="ui-btn ui-corner-all" value="eur">Евро</a>
-		  <a href="#" class="ui-btn ui-corner-all" value="usd">Доллары</a>
-	      </div>
-	    </fieldset>
-
-	    <fieldset data-role="controlgroup" id="set-search">
-	      <a href="#" class="ui-btn ui-corner-all" value="back">Назад</a>
-	      <input type="search" name="search" id="search-value" value="" />
-	      <input type="button" value="Найти" id="search-button">
-	    </fieldset>
-
-
-	    <a href="#" class="ui-btn  ui-icon-bars ui-btn-icon-notext ui-nodisc-icon ui-alt-icon ui-icon-bars">Delete</a>
+	  <div data-role="header">
+	      <a href="#menu" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-nodisc-icon ui-green-icon ui-icon-bars">View</a>
+	      <span class="ui-title">Сбербанк.Пробки</span>
 	  </div>
+	  <!--<div data-role="header">
+	    <a href="#menu" id="open-menu" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-nodisc-icon ui-alt-icon ui-icon-bars">Delete</a>
+	  </div>-->
+	    <div role="main" class="ui-content">
+	      <div data-role="panel" id="menu" data-display="overlay">
+		<fieldset data-role="controlgroup" id="set-service">
+		      <a href="#mapapp?menu=get_money" data-transition="none" class="ui-btn ui-corner-all" value="get_money">Снять наличные</a>
+		      <a href="#mapapp?menu=put_money" data-transition="none" class="ui-btn ui-corner-all" value="put_money">Внести наличные</a>
+		      <a href="#mapapp?menu=credit" data-transition="none" class="ui-btn ui-corner-all">Кредит</a>
+		      <a href="#mapapp?menu=deposit" data-transition="none" class="ui-btn ui-corner-all">Вклады</a>
+		      <a href="#mapapp?menu=search" data-transition="none" class="ui-btn ui-corner-all" value="search">Поиск</a>
+		</fieldset>
+		<fieldset data-role="controlgroup" id="set-money">
+		  <div>
+		      <a href="#" class="ui-btn ui-corner-all value" value="1000">1 000</a>
+		      <a href="#" class="ui-btn ui-corner-all value" value="5000">5 000</a>
+		      <a href="#" class="ui-btn ui-corner-all value" value="10000">10 000</a>
+		      <a href="#" class="ui-btn ui-corner-all value" value="20000">20 000</a>
+		      <a href="#" class="ui-btn ui-corner-all value" value="50000">50 000</a>
+		  </div>
+		  <div>
+		      <a href="#" class="ui-btn ui-corner-all value" value="100000">100 000</a>
+		      <a href="#" class="ui-btn ui-corner-all value" value="200000">200 000</a>
+		      <a href="#" class="ui-btn ui-corner-all value" value="500000">500 000</a>
+		      <a href="#" class="ui-btn ui-corner-all value" value="1000000">1 000 000</a>		  		  		  		  
+		      <a href="#" class="ui-btn ui-corner-all value" value="more">Больше</a>
+		  </div>
+		  
+		      <a href="#" class="ui-btn ui-corner-all currency" value="rur">Рубли</a>
+		      <a href="#" class="ui-btn ui-corner-all currency" value="eur">Евро</a>
+		      <a href="#" class="ui-btn ui-corner-all currency" value="usd">Доллары</a>
+		  
+		</fieldset>
 
+		<fieldset data-role="controlgroup" id="set-search">
+		  <input type="search" name="search" id="search-value" value="" />
+		  <input type="button" value="Найти" id="search-button">
+		</fieldset>	
 
-	  <div role="main" class="ui-content" id="map"></div>
+	    </div>
+	      <div  id="map"></div>
+	    </div>
 	</div>
 
 
