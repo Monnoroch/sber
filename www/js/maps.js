@@ -39,17 +39,17 @@ $.widget( "custom.maps", {
 
             return false;
         })
-	
+
 
         self.map.events.add('click', function (e) {
             self.map.balloon.close();
 	    if(self.options.enableSuperPlacemark){
 	      var coords = e.get('coords');
-	      
+
 	      if( self.superPlacemark ){
 		self.map.geoObjects.remove( self.superPlacemark );
 	      }
-	      
+
 	      self.superPlacemark = new ymaps.Placemark(coords, {}, {
 		iconLayout: 'default#imageWithContent',
 		// iconImageClipRect: [[0,0], [26, 46]],
@@ -69,7 +69,7 @@ $.widget( "custom.maps", {
 	      self.findRoute(coords);
 	      self.map.geoObjects.add(self.superPlacemark);
 	    }
-	    
+
         });
 
         self.map.events.add('balloonopen', function(e){
@@ -87,6 +87,13 @@ $.widget( "custom.maps", {
         this.getService("get_money");
       else ymaps.ready(function(){
         self.getService("get_money");
+      })
+    }
+    if(key == "center"){
+      if(this.map)
+        this.map.setCenter(value);
+      else ymaps.ready(function(){
+        self.map.setCenter(value);
       })
     }
     if( (key == "enableSuperPlacemark") && (!value) ){
