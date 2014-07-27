@@ -605,3 +605,9 @@ color: #fff;
 .ui-btn-active{
   background-color: #B3F1B7!important;
 }
+#semafore{
+  margin-top: -100px;
+position: absolute;
+right: 10px;
+text-align: right; 
+}

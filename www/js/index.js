@@ -210,6 +210,9 @@ var app = {
 	  $(this).toggleClass("on");
 	  $("#map").maps({enableSuperPlacemark:  !$("#map").maps("option", "enableSuperPlacemark" ) })
 	})
+	$("#home").on("click", function(){
+	  $("#map").maps({ center: [55.758728299999994, 37.6106999] });
+	})
 
 	this.loadData();
     },
@@ -254,6 +257,9 @@ var app = {
 	.append( Services(info.services).print() );
 
 
+    var color = (info.load.color == "yellow") ? "orange" : info.load.color;
+    if(color)
+      $("#semafore").html("<img src='img/" + color + "-semafor.png'/><br/>Время в очереди "+ info.load.avg_load + " мин.");
 
 
 
