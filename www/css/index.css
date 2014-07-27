@@ -37,7 +37,7 @@ body {
     );
     background-attachment:fixed;
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
-    font-size:14px;
+/*     font-size:14px; */
     height:100%;
     margin:0px;
     padding:0px;
@@ -125,7 +125,7 @@ h1 {
   margin: 0;
   padding: 0;
 }
-
+/*
 #mapapp .ui-header{
   position: absolute;
   top: 0;
@@ -141,11 +141,11 @@ h1 {
     #mapapp .ui-header{
       width: 600px;
     }
-}
+}*/
 
-#mapapp .ui-header .ui-controlgroup{
+/*#mapapp .ui-header .ui-controlgroup{
   margin: 6px;
-}
+}*/
 #mapapp .ui-controlgroup-controls{
     width: 100%;
 }
@@ -161,12 +161,12 @@ h1 {
   text-shadow: none;
   height: 3.5em;
   float:left;
-}
+}/*
 #mapapp .ui-header .ui-select{
   display: block;
   float: none;
   margin-right: -3px;
-}
+}*/
 #set-search #search-button{
   display: inline-block;
   float: none;
@@ -194,6 +194,8 @@ h1 {
   text-align: left;
   font-size: 2em ;
   font-weight: bold;
+  color: #389F41;
+  font-weight: normal;
 }
 
 #info h2{
@@ -202,6 +204,8 @@ h1 {
   font-size: 1.6em;
   margin: 0.74em 10px 0.74em;
   padding-bottom: 0.2em;  
+  color: #389F41;
+  font-weight: normal;
 }
 
 #info .ui-navbar{
@@ -373,11 +377,28 @@ span.rur span:before { content: '\2013'; }
 
 #menu, #menu .ui-panel-inner{
   padding: 0;
+  top: 43px;
+/*   background: #389F41; */
 }
+
+#menu .ui-btn{
+  /*background: #389F41;
+  color: #fff;*/
+  color: #389F41;
+  font-weight: normal;
+}
+
 #menu fieldset{
     margin: 0;
 }
 #menu a{
   border-radius: 0;
+}
+
+.ui-header{
+  background-color: #389F41!important;
+}
+.ui-header .ui-title{
+color: #fff; 
 }
 

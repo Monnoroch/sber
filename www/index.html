@@ -39,9 +39,15 @@
 	</div>
 
 	<div data-role="page" id="mapapp">
-	  <a href="#menu" id="open-menu" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-nodisc-icon ui-alt-icon ui-icon-bars">Delete</a>
-
-	    <div data-role="panel" id="menu" data-display="overlay">
+	  <div data-role="header">
+	      <a href="#menu" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-nodisc-icon ui-green-icon ui-icon-bars">View</a>
+	      <span class="ui-title">Сбербанк.Пробки</span>
+	  </div>
+	  <!--<div data-role="header">
+	    <a href="#menu" id="open-menu" class="ui-btn ui-icon-bars ui-btn-icon-notext ui-nodisc-icon ui-alt-icon ui-icon-bars">Delete</a>
+	  </div>-->
+	    <div role="main" class="ui-content">
+	      <div data-role="panel" id="menu" data-display="overlay">
 		<fieldset data-role="controlgroup" id="set-service">
 		      <a href="#mapapp?menu=get_money" data-transition="none" class="ui-btn ui-corner-all" value="get_money">Снять наличные</a>
 		      <a href="#mapapp?menu=put_money" data-transition="none" class="ui-btn ui-corner-all" value="put_money">Внести наличные</a>
@@ -77,10 +83,8 @@
 		</fieldset>	
 
 	    </div>
-
-
-
-	  <div role="main" class="ui-content" id="map"></div>
+	      <div  id="map"></div>
+	    </div>
 	</div>
 
 
