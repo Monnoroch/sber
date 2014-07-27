@@ -99,6 +99,7 @@ $.widget( "custom.maps", {
     if( (key == "enableSuperPlacemark") && (!value) ){
       self.map.geoObjects.remove( self.superPlacemark );
       self.superPlacemark = false;
+      self.clearByTag("route");
     }
   },
 

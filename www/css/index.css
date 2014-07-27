@@ -572,7 +572,7 @@ span.rur span:before { content: '\2013'; }
 
 #menu, #menu .ui-panel-inner{
   padding: 0;
-  top: 42px;
+/*   top: 42px; */
 /*   background: #389F41; */
 }
 
@@ -613,4 +613,12 @@ text-align: right;
 }
 .ui-controlgroup, fieldset.ui-controlgroup {
   margin: 0;
+}
+
+#mapapp .ui-content{
+  position: absolute;
+  top: 42px;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }

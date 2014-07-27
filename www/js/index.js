@@ -168,7 +168,7 @@ var app = {
 	  $("#set-money").attr("currency", currency);
 
 	  $("#set-money .value-cont").remove();
-	  $("#set-money .ui-controlgroup-controls").prepend( services.moneySet(currency) ).controlgroup().controlgroup("refresh");
+	  $("#set-money .ui-controlgroup-controls").prepend( services.moneySet(currency) )/*.controlgroup().controlgroup("refresh");*/
 
 	  if(value && currency){
 	    $("#map").maps("getMoney", value, currency);
@@ -225,8 +225,8 @@ var app = {
     },
     onOrientationChange: function() {
         this.viewport = {
-            width  : $(window).width(),
-            height : $(window).height()
+            width  : $("#mapapp .ui-content").width(),
+            height : $("#mapapp .ui-content").height()
         };
         $("#map").width(this.viewport.width)
                     .height(this.viewport.height);
