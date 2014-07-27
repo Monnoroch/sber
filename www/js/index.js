@@ -157,18 +157,25 @@ var app = {
 	    $("#map").maps("getMoney", value, currency);
 	    //$("#menu").panel("close");
 	  }
+	  
+	  $("#set-money .value").removeClass("on");
+	  $(this).addClass("on");
+	  
 	})
 	$("#set-money").on("click", ".currency", function(){
 	  var value = Number( $("#set-money").attr("value") );
 	  var currency = $(this).attr("value")
 	  $("#set-money").attr("currency", currency);
 
-	  $("#set-money .ui-controlgroup-controls").empty().append( services.moneySet(currency) ).controlgroup().controlgroup("refresh");
+	  $("#set-money .value-cont").remove();
+	  $("#set-money .ui-controlgroup-controls").prepend( services.moneySet(currency) ).controlgroup().controlgroup("refresh");
 
 	  if(value && currency){
 	    $("#map").maps("getMoney", value, currency);
 	    //$("#menu").panel("close");
 	  }
+	  $("#set-money .currency").removeClass("on");
+	  $(this).addClass("on");
 
 	})
 	//search

@@ -36,7 +36,7 @@ body {
         color-stop(0.51, #E4E4E4)
     );
     background-attachment:fixed;
-    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-family: Arial;
 /*     font-size:14px; */
     height:100%;
     margin:0px;
@@ -610,4 +610,7 @@ color: #fff;
 position: absolute;
 right: 10px;
 text-align: right; 
+}
+.ui-controlgroup, fieldset.ui-controlgroup {
+  margin: 0;
 }
