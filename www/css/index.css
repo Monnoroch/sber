@@ -41,7 +41,7 @@ body {
     height:100%;
     margin:0px;
     padding:0px;
-    
+
     width:100%;
 }
 
@@ -69,7 +69,7 @@ body {
     }
 }
 
-.ui-btn { 
+.ui-btn {
   /*padding-left: 0.8em;
   padding-right: 0.8em;*/
   text-overflow: inherit;
@@ -108,13 +108,13 @@ h1 {
     50% { opacity: 0.4; }
     to { opacity: 1.0; }
 }
- 
+
 @-webkit-keyframes fade {
     from { opacity: 1.0; }
     50% { opacity: 0.4; }
     to { opacity: 1.0; }
 }
- 
+
 .blink {
     animation:fade 3000ms infinite;
     -webkit-animation:fade 3000ms infinite;
@@ -180,7 +180,7 @@ h1 {
 
 
 #info {
- 
+
 }
 #info #stars, #info #controls{
   padding: 0px 10px 0.75em;
@@ -201,13 +201,13 @@ h1 {
 /*   color: #3EB249; */
   font-size: 1.6em;
   margin: 0.74em 10px 0.74em;
-  padding-bottom: 0.2em;  
+  padding-bottom: 0.2em;
 }
 
 #info .ui-navbar{
   margin: 0 10px;
 }
-#info .ui-navbar li:last-child .ui-btn { 
+#info .ui-navbar li:last-child .ui-btn {
   border-right-width: 1px;
 }
 #info .ui-body{
@@ -220,14 +220,15 @@ h1 {
   background: none;
 }
 #info .comment-rating .ui-icon-star:after{
-  background-size: 10px 10px; 
+  background-size: 10px 10px;
 }
 
   @font-face { font-family: "Rubl Sign"; src: url(http://www.artlebedev.ru/;-)/ruble.eot); }
-span.rur { font-family: "Rubl Sign"; text-transform: uppercase; /* text-transform: none;*/}    
+span.rur { font-family: "Rubl Sign"; text-transform: uppercase; /* text-transform: none;*/}
 span.rur span { position: absolute; overflow: hidden; width: .45em; height: 1em; margin: .1ex 0 0 -.55em; /* display: none;*/ }
 span.rur span:before { content: '\2013'; }
 #map .ymaps-svg-icon {
+  cursor: move;
   /*left: -22px!important;
   top: -76px!important;
   width: 68px!important;
@@ -236,8 +237,8 @@ span.rur span:before { content: '\2013'; }
 }
 .semafor {
   position: absolute;
-  top: 43px;
-  right: 0px;
+  top: 0px;
+  right: 4px;
 }
 .more-button {
   position:absolute;
@@ -268,10 +269,12 @@ span.rur span:before { content: '\2013'; }
 }
 .hint-container p {
   margin-bottom: 2px;
-  max-width: 100px;
+  max-width: 110px;
 }
-.hint-container h4 {
+.hint-container h2 {
   margin: 0px;
+  font-weight:100;
+  font-size:17px;
 }
 
 .top-slide-menu{
@@ -310,7 +313,7 @@ span.rur span:before { content: '\2013'; }
   background-color: none;
 }
 
-.top-slide-menu fieldset{ 
+.top-slide-menu fieldset{
   position: absolute;
   top: 0;
   bottom: 1.75em;
@@ -329,13 +332,14 @@ span.rur span:before { content: '\2013'; }
   width: 34%;
 }
 #set-money div:last-child a{
-  border-left-width: 0; 
+  border-left-width: 0;
 }
 #set-money .last a{
   height: 3.05em;
+  border-left-width: 3px!important;
 }
 #set-money div a:last-child{
-  border-bottom-width: 1px; 
+  border-bottom-width: 1px;
 }
 
 .ui-collapsible{
@@ -350,3 +354,194 @@ span.rur span:before { content: '\2013'; }
     border-left-width: 1px;
 }
 
+.ymaps-balloon-pane {
+  top: -28px;
+}
+.money-rur{
+  background-image: url("../img/rur.png");
+  background-size: 20px 20px;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+}
+.money-count-3 .money-rur{
+  margin-right: 4px;
+}
+.money-eur{
+  background-image: url("../img/eur.png");
+  background-size: 30px 30px;
+  width: 30px;
+  height: 30px;
+  margin-bottom: -5px;
+  display: inline-block;
+  margin-right:-8px;
+}
+.money-usd{
+  background-image: url("../img/usd.png");
+  background-size: 20px 20px;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+}
+.money-count-2 .money-usd{
+  margin-right: 2px;
+}
+.money-types{
+  float:right;
+}
+.money-types .money-count-1 {
+  right:24px;
+  top:60px;
+  position:absolute;
+}
+.money-count-1 .money-man{
+  right: -5px;
+}
+.money-types .money-count-2 {
+  right:14px;
+  top:60px;
+  position:absolute;
+}
+.money-types .money-count-3 {
+  right:5px;
+  top:60px;
+  position:absolute;
+}
+.money-count-3 .money-man{
+  right: 15px;
+}
+.money-count-2 .money-man{
+  right: 7px;
+}
+.money-count-1 .money-eur{
+  margin-right: -3px;
+}
+.money-man {
+  background-image: url("../img/man.png");
+  background-size: 35px 35px;
+  width: 35px;
+  height: 35px;
+  display: block;
+  position:absolute;
+  top: 35px;
+}
+
+.arrow-up-45 {
+  background-image: url("../img/arrows.png");
+  background-position: -45px -36px;
+  background-size: 110px 96px;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  right:33px;
+  top:28px;
+  display: none;
+}
+.arrow-down-45 {
+  background-image: url("../img/arrows.png");
+  background-position: -7px -8px;
+  background-size: 110px 96px;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  right:40px;
+  top:30px;
+  display: none;
+}
+.arrow-up-135 {
+  background-image: url("../img/arrows.png");
+  background-position: -7px -36px;
+  background-size: 110px 96px;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  right:7px;
+  top:28px;
+  display: none;
+}
+.arrow-down-135 {
+  background-image: url("../img/arrows.png");
+  background-position: 62px -8px;
+  background-size: 110px 96px;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  right:-2px;
+  top:30px;
+  display: none;
+}
+.arrow-up-30 {
+  background-image: url("../img/arrows.png");
+  background-position: -69px -36px;
+  background-size: 110px 96px;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  right:7px;
+  top:23px;
+  display: none;
+}
+.arrow-down-30 {
+  background-image: url("../img/arrows.png");
+  background-position: 20px -8px;
+  background-size: 110px 96px;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  right:-4px;
+  top:25px;
+  display: none;
+}
+.arrow-up-120 {
+  background-image: url("../img/arrows.png");
+  background-position: 24px -36px;
+  background-size: 110px 96px;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  right:15px;
+  top:23px;
+  display: none;
+}
+.arrow-down-120 {
+  background-image: url("../img/arrows.png");
+  background-position: 40px -8px;
+  background-size: 110px 96px;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  right:20px;
+  top:25px;
+  display: none;
+}
+.arrow-up {
+  background-image: url("../img/arrows.png");
+  background-position: 84px -36px;
+  background-size: 110px 96px;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  right:-1px;
+  top:23px;
+  display: none;
+}
+.arrow-down {
+  background-image: url("../img/arrows.png");
+  background-position: -28px -8px;
+  background-size: 110px 96px;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  right:4px;
+  top:25px;
+  display: none;
+}
+.money-count-3 .arrow-up {
+  right: 18px;
+}
+.money-count-3 .arrow-down {
+  right: 23px;
+}
+.map-nav-btn{
+  margin-top:0px;
+}

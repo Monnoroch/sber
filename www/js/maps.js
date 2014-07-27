@@ -21,8 +21,8 @@ $.widget( "custom.maps", {
         self.map.geoObjects.add(placemark);
         self.me = self.map.geoObjects.indexOf(placemark)
 
-        self.clusterer = new ymaps.Clusterer({minClusterSize: 5});
-        self.map.geoObjects.add(self.clusterer);
+        //self.clusterer = new ymaps.Clusterer({minClusterSize: 100500});
+        //self.map.geoObjects.add(self.clusterer);
 
         self.element.on( "click", ".hint-container", function() {
           console.log("onclick")
@@ -31,6 +31,21 @@ $.widget( "custom.maps", {
           self._trigger("onOpen", self, {id: id});
 
         });
+        self.element.on("click", ".ui-btn",function(){
+          var id = $(".map-nav-btn", $(this)).attr("data-id");
+            self.map.balloon.close(true);
+            self.addRoute(self.options.data[id]);
+
+            return false;
+        })
+
+        self.map.events.add('click', function (e) {
+            self.map.balloon.close();
+        });
+
+        self.map.events.add('balloonopen', function(e){
+          $("[data-role='button']").button();
+        })
 
         self.getService("get_money");
     }
@@ -49,6 +64,7 @@ $.widget( "custom.maps", {
 
   getMoney: function(amount, type) {
     var items, self = this;
+    this.clearAll();
 
     function hasAmount(item) {
       var itemAmount = 0;
@@ -98,6 +114,54 @@ $.widget( "custom.maps", {
 
     return this;
   },
+  findRoute: function(to) {
+    var self = this;
+    var start = this.map.geoObjects.get(this.me).geometry.getCoordinates();
+    var minDistanse = null;
+    var nearestPlacemark = null;
+
+    this.map.geoObjects.each(function(placemark) {
+      if(placemark.properties.markerId && placemark.properties.color !== "grey") {
+        var distanse = ymaps.coordSystem.geo.getDistance(start, placemark.geometry.getCoordinates());
+        if(!minDistanse || distanse < minDistanse) {
+          minDistanse = distanse;
+          nearestPlacemark = placemark;
+        }
+      }
+    });
+
+    ymaps.route([start, nearestPlacemark.geometry.getCoordinates(), to], {
+        multiRoute: true,
+    }).done(function (route) {
+        route.options.set("mapStateAutoApply", true);
+        // route.options.set( "wayPointStartIconLayout", "default#image");
+        // route.options.set( "wayPointStartIconImageHref", "img/transparent-icon.png");
+        // route.options.set( "wayPointStartContentSize", [10, 10])
+        // route.options.set( "wayPointStartIconImageSize", [26, 46])
+        // route.options.set( "wayPointStartIconImageOffset", [-25, -46])
+        route.options.set( "wayPointIconLayout", "default#image");
+        route.options.set( "wayPointIconImageHref", "img/transparent-icon.png");
+        route.options.set( "wayPointContentSize", [10, 10])
+        route.options.set( "wayPointIconImageSize", [26, 46])
+        route.options.set( "wayPointIconImageOffset", [-25, -46])
+
+        // route.options.set( "wayPointFinishIcon", "default#imageWithContent");
+        // route.options.set( "wayPointFinishIconImageHref", "img/route.png");
+        // route.options.set( "wayPointFinishIconImageContent", "Ф");
+        // route.options.set( "wayPointFinishIconImageSize", [20, 26])
+        // route.options.set( "wayPointFinishIconImageOffset", [-10, -13])
+        //           iconImageSize: [34, 41],
+        //   iconImageOffset: [-17, -20],
+        //    wayPointStartIconImageHref: 'examples/maps/ru/multiroute_custom_icon_layout/images/start_point.png'
+        route.properties.myid = "me";
+        route.properties.tag = "route";
+        self.clearByTag("route");
+        self.map.geoObjects.add(route);
+    }, function (err) {
+        console.log(err);
+    }, this);
+
+  },
   addRoute: function(item) {
     var startPosition, endPosition,
         self = this;
@@ -133,6 +197,7 @@ $.widget( "custom.maps", {
   },
   getService: function(serviceType) {
     var items, self = this;
+    this.clearAll();
 
     function hasService(type) {
       return function(item){
@@ -189,21 +254,42 @@ $.widget( "custom.maps", {
         }
 
         if(item.services.main === "Отделение")
-          iconContent = "<img src='img/bank.png'/ style='width:13px;height:13px;'>"
+          iconContent = "<img src='img/bank.png'/ style='width:14px;height:14px;margin-left:6px;margin-top:6px;'>"
         if(item.services.main === "Банкомат")
-          iconContent = "<img src='img/ATM.png'/ style='width:13px;height:13px;'>"
+          iconContent = "<img src='img/usd.png'/ style='width:14px;height:14px;margin-left:6px;margin-top:6px;'>"
+
+        var exists = false;
+        self.map.geoObjects.each(function(itemOnMap) {
+          if(itemOnMap.properties.markerId == item.id)
+            exists = true;
+        });
+
+        if(exists) return;
 
         placemark = new ymaps.Placemark(position, {
             iconContent: iconContent,
             // hintContent: office.address,
-            balloonContent: self.createHintContent(item),
-            balloonCloseButton: false
+            balloonContent: self.createHintContent(item)
         }, {
-          iconColor: (item.load.color == "yellow") ? "orange" : item.load.color,
-          hideIconOnBalloonOpen: false
+          iconLayout: 'default#imageWithContent',
+          // iconImageClipRect: [[0,0], [26, 46]],
+          iconImageHref: 'img/' + item.load.color + '-marker.png',
+          iconImageSize: [34, 41],
+          iconImageOffset: [-17, -20],
+          // Определим интерактивную область над картинкой.
+          iconShape: {
+              type: 'Rectangle',
+              coordinates: [ [0 - 5, 0 - 5], [34 + 5, 41 + 5] ]
+          },
+          //iconColor: (item.load.color == "yellow") ? "orange" : item.load.color,
+          hideIconOnBalloonOpen: false,
+          balloonCloseButton: false,
+          balloonMinHeight: 120
         });
+        placemark.properties.markerId = item.id;
+        placemark.properties.color = item.load.color;
 
-        self.clusterer.add(placemark);
+        self.map.geoObjects.add(placemark);
     });
 
 
@@ -222,7 +308,7 @@ $.widget( "custom.maps", {
     return this;
   },
   createHintContent: function(item) {
-    var container = $("<div/>", {class: "hint-container", "data-id": item.id}).append($("<h4/>").append(item.address)),
+    var container = $("<div/>", {class: "hint-container", "data-id": item.id}).append($("<h2/>").append(item.services.main)),
         money = item.services.get_money;
     // moreButton = $("<div/>", {class: "more-button", "data-id": id}).append("<p>...</p>");
 
@@ -245,48 +331,178 @@ $.widget( "custom.maps", {
       return money.slice(2);
     }
 
-    if(money && money.usd)
-      container.append($("<p/>").append(printValues("usd", "$")));
-    if(money && money.eur)
-      container.append($("<p/>").append(printValues("eur", "€")));
-    if(money && money.rur)
-      container.append($("<p/>").append(printValues("rur", "<span class=\"rur\">p<span>уб.</span></span>")));
+    container.append($("<p/>").text(item.address));
 
     var color = (this.options.data[item.id].load.color == "yellow") ? "orange" : this.options.data[item.id].load.color;
     var semafor = $("<div/>");
     if(color)
       semafor.append("<img src='img/" + color + "-semafor.png'/>");
-    var avgLoad = $("<div/>");
-    if(item.load.avg_load)
-      avgLoad.append("~" + item.load.avg_load + " минут");
 
     container.append( $("<div/>", {class: "semafor"})
                           .append( semafor )
-                          .append( avgLoad )
-                          )
+                          );
+    container.append( $("<div/>").append('<a href="#" class="map-nav-btn" data-id="' + item.id + '" data-iconpos="notext" data-icon="navigation" data-role="button"/>'));
+    var moneyAvaliable = [];
+    if(item.services.get_money && item.services.get_money.rur)
+      moneyAvaliable.push("rur");
+    if(item.services.get_money && item.services.get_money.usd)
+      moneyAvaliable.push("usd");
+    if(item.services.get_money && item.services.get_money.eur)
+      moneyAvaliable.push("eur");
+
+    container.append( $("<div/>", {class: "money-types"})
+                      .append( this.createDivForMoney(moneyAvaliable, item) )
+                      //.append( man )
+                      );
               //.append( moreButton );
     // console.log(container)
     return container[0].outerHTML;
   },
+  createDivForMoney: function(types, item) {
+    var res = $("<div/>");
+    for(var i = 0; i < types.length; i++) {
+      res.append($("<div/>",{class: "money-"+types[i]}));
+    }
+
+    res.addClass("money-count-"+types.length);
+
+    var arrows = $("<div/>").append($("<div/>", {class: "arrow-down-45"}))
+                            .append($("<div/>", {class: "arrow-up-45"}))
+                            .append($("<div/>", {class: "arrow-up-135"}))
+                            .append($("<div/>", {class: "arrow-down-135"}))
+                            .append($("<div/>", {class: "arrow-up-30"}))
+                            .append($("<div/>", {class: "arrow-down-30"}))
+                            .append($("<div/>", {class: "arrow-up-120"}))
+                            .append($("<div/>", {class: "arrow-down-120"}))
+                            .append($("<div/>", {class: "arrow-up"}))
+                            .append($("<div/>", {class: "arrow-down"}));
+
+    res.append(arrows);
+
+    switch(types.length){
+      case 1:
+        var up = null, down = null;
+        if(item.services.put_money && item.services.put_money[types[0]]){
+          up = $(".arrow-up",arrows);
+          up.show();
+        }
+        if(item.services.get_money && item.services.get_money[types[0]]){
+          down = $(".arrow-down",arrows)
+          down.show();
+        }
+
+        if( (!up && down) )
+          down.css("right", "0px");
+        if( (up && !down) )
+          up.css("right", "0px");
+
+        break;
+      case 2:
+        if(item.services.put_money && item.services.put_money[types[0]])
+          $(".arrow-up-120",arrows).show();
+        if(item.services.get_money && item.services.get_money[types[0]])
+          $(".arrow-down-120",arrows).show();
+
+        if(item.services.put_money && item.services.put_money[types[1]])
+          $(".arrow-up-30",arrows).show();
+        if(item.services.get_money && item.services.get_money[types[1]])
+          $(".arrow-down-30",arrows).show();
+        break;
+      case 3:
+        var up = null, down = null;
+        if(item.services.put_money && item.services.put_money[types[0]]){
+          $(".arrow-up-45",arrows).show();
+        }
+        if(item.services.get_money && item.services.get_money[types[0]]){
+          $(".arrow-down-45",arrows).show();
+        }
+        if(item.services.put_money && item.services.put_money[types[1]]){
+          up = $(".arrow-up",arrows);
+          up.show();
+        }
+        if(item.services.get_money && item.services.get_money[types[1]]){
+          down = $(".arrow-down",arrows);
+          down.show();
+        }
+        if(item.services.put_money && item.services.put_money[types[2]]){
+          $(".arrow-up-135",arrows).show();
+        }
+        if(item.services.get_money && item.services.get_money[types[2]]){
+          $(".arrow-down-135",arrows).show();
+        }
+
+        if( (!up && down) )
+          down.css("right", "20px");
+        if( (up && !down) )
+          up.css("right", "20px");
+        break;
+    }
+
+    res.append($("<div/>",{class: "money-man"}));
+
+    return res;
+  },
   clear: function() {
     var self = this;
     if(this.map) {
-      this.clusterer.removeAll();
-      // var iter = this.map.geoObject.getIterator();
-      // var item = iter.getNext();
-      // while(item != iter.STOP_ITERATION && iter.getNext() != iter.STOP_ITERATION) {
-      //   if(item.properties.myid != "me") {
-      //     self.map.geoObjects.remove(item);
-      //     iter = this.map.geoObjects.getIterator();
-      //   }
+      //this.clusterer.removeAll();
+      var iter = this.map.geoObjects.getIterator();
+      var item = iter.getNext();
+      var idsToRemove = [];
+      while(item != iter.STOP_ITERATION) {
+        if(item.properties.myid != "me" && item.properties.markerId) {
+          idsToRemove.push(self.map.geoObjects.indexOf(item));
+        }
 
-      //   item = iter.getNext();
-      // }
-      //this.map.geoObjects.each( function(placemark) {
-        //if(self.map.geoObjects.indexOf(placemark) != self.me )
-          //self.map.geoObjects.remove(placemark);
-      //});
+        item = iter.getNext();
+      }
+
+      var mapBounds = self.map.getBounds();
+      var data = idsToRemove.filter(function(id) {
+        if(!self.map.geoObjects.get(id).geometry)
+          return false;
+
+        var position = self.map.geoObjects.get(id).geometry.getCoordinates();
+
+        if(position[0] >= Math.min(mapBounds[0][0], mapBounds[1][0]) &&
+           position[0] <= Math.max(mapBounds[0][0], mapBounds[1][0]) &&
+           position[1] >= Math.min(mapBounds[0][1], mapBounds[1][1]) &&
+           position[1] <= Math.max(mapBounds[0][1], mapBounds[1][1]) )
+          return false;
+        return true;
+      });
+
+      data.forEach(function(id){
+        var it = self.map.geoObjects.get(id);
+        if( it && it.properties && it.properties.markerId && it.properties.myid != "me")
+          self.map.geoObjects.remove(it);
+      });
+
+      // this.map.geoObjects.each( function(placemark) {
+      //   if(self.map.geoObjects.indexOf(placemark) != self.me )
+      //     self.map.geoObjects.remove(placemark);
+      // });
       //this.map.geoObjects.removeAll();
+    }
+  },
+  clearAll: function(){
+    var self = this;
+    if(this.map) {
+      //this.clusterer.removeAll();
+      var iter = this.map.geoObjects.getIterator();
+      var item = iter.getNext();
+      var idsToRemove = [];
+      while(item != iter.STOP_ITERATION) {
+        if(item.properties.myid != "me") {
+          idsToRemove.push(self.map.geoObjects.indexOf(item));
+        }
+
+        item = iter.getNext();
+      }
+
+      idsToRemove.forEach(function(id){
+        self.map.geoObjects.remove(self.map.geoObjects.get(id));
+      });
     }
   },
   clearByTag: function(tag) {
@@ -294,14 +510,20 @@ $.widget( "custom.maps", {
     if(this.map) {
       var iter = this.map.geoObjects.getIterator();
       var item = iter.getNext();
+      var idsToRemove = [];
       while(item != iter.STOP_ITERATION) {
         if(item.properties && item.properties.tag == tag) {
-          self.map.geoObjects.remove(item);
-          iter = this.map.geoObjects.getIterator();
+          //self.map.geoObjects.remove(item);
+          //iter = this.map.geoObjects.getIterator();
+          idsToRemove.push(self.map.geoObjects.indexOf(item));
         }
 
         item = iter.getNext();
       }
+
+      idsToRemove.forEach(function(id){
+        self.map.geoObjects.remove(self.map.geoObjects.get(id));
+      });
       //this.map.geoObjects.each( function(placemark) {
         //if(self.map.geoObjects.indexOf(placemark) != self.me )
           //self.map.geoObjects.remove(placemark);

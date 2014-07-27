@@ -273,38 +273,51 @@ var app = {
 	  host: this.server + "/sber/data",
 	},
 	success: function(r){
-	  // self.data = [];
-	  // for(var i = 0; i < 10; i++){
-	  //   self.data[i] = r[i];
-	  // }
-	  self.data = r;
+	  self.data = [];
+	  for(var i = 0; i < r.length; i+=10) {
+	    self.data[i] = r[i];
+	  }
+	  // self.data = r;
 	  //self.loadInfo( self.currentInfoId );
-          function geolocationSuccess(position) {
-                $("#map").maps({
-                        data: self.data,
-                        center: [position.coords.latitude, position.coords.longitude],
+
+		$("#map").maps({
+		        data: self.data,
+		        center: [55.758728299999994, 37.6106999],
 			onOpen: function(e, ui){
 
 			self.currentInfoId = ui.id;
 			self.loadInfo( self.currentInfoId );
 			$.mobile.changePage( "#info");
 		      }
-                });
+		});
 		self.onOrientationChange();
-          }
-          function geolocationError() {
-                $("#map").maps({ data: self.data, center: [55.753559, 37.609218],
-		  onOpen: function(e, ui){
+//          function geolocationSuccess(position) {
+  //               $("#map").maps({
+  //                       data: self.data,
+  //                       center: [position.coords.latitude, position.coords.longitude],
+		// 	onOpen: function(e, ui){
 
-		  self.currentInfoId = ui.id;
-		  self.loadInfo( self.currentInfoId );
-		  $.mobile.changePage( "#info");
+		// 	self.currentInfoId = ui.id;
+		// 	self.loadInfo( self.currentInfoId );
+		// 	$.mobile.changePage( "#info");
+		//       }
+  //               });
+		// self.onOrientationChange();
+		// console.log( [position.coords.latitude, position.coords.longitude])
+  //         }
+  //         function geolocationError() {
+  //               $("#map").maps({ data: self.data, center: [55.753559, 37.609218],
+		//   onOpen: function(e, ui){
+
+		//   self.currentInfoId = ui.id;
+		//   self.loadInfo( self.currentInfoId );
+		//   $.mobile.changePage( "#info");
 
 
-		  }	});
-		self.onOrientationChange();
-          }
-	  navigator.geolocation.getCurrentPosition(geolocationSuccess, geolocationError);
+		//   }	});
+		// self.onOrientationChange();
+  //         }
+	  // navigator.geolocation.getCurrentPosition(geolocationSuccess, geolocationError,{timeout: 10000});
 	}
       })
     },
