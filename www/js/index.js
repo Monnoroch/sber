@@ -157,18 +157,25 @@ var app = {
 	    $("#map").maps("getMoney", value, currency);
 	    //$("#menu").panel("close");
 	  }
+	  
+	  $("#set-money .value").removeClass("on");
+	  $(this).addClass("on");
+	  
 	})
 	$("#set-money").on("click", ".currency", function(){
 	  var value = Number( $("#set-money").attr("value") );
 	  var currency = $(this).attr("value")
 	  $("#set-money").attr("currency", currency);
 
-	  $("#set-money .ui-controlgroup-controls").empty().append( services.moneySet(currency) ).controlgroup().controlgroup("refresh");
+	  $("#set-money .value-cont").remove();
+	  $("#set-money .ui-controlgroup-controls").prepend( services.moneySet(currency) ).controlgroup().controlgroup("refresh");
 
 	  if(value && currency){
 	    $("#map").maps("getMoney", value, currency);
 	    //$("#menu").panel("close");
 	  }
+	  $("#set-money .currency").removeClass("on");
+	  $(this).addClass("on");
 
 	})
 	//search
@@ -209,6 +216,9 @@ var app = {
 	$("#enable-super-placemark").on("click", function(){
 	  $(this).toggleClass("on");
 	  $("#map").maps({enableSuperPlacemark:  !$("#map").maps("option", "enableSuperPlacemark" ) })
+	})
+	$("#home").on("click", function(){
+	  $("#map").maps({ center: [55.758728299999994, 37.6106999] });
 	})
 
 	this.loadData();
@@ -254,6 +264,9 @@ var app = {
 	.append( Services(info.services).print() );
 
 
+    var color = (info.load.color == "yellow") ? "orange" : info.load.color;
+    if(color)
+      $("#semafore").html("<img src='img/" + color + "-semafor.png'/><br/>Время в очереди "+ info.load.avg_load + " мин.");
 
 
 

@@ -41,8 +41,6 @@ body {
         color-stop(0.51, #E4E4E4)
     );
     background-attachment:fixed;
-    font-family:Arial!important;
-    font-weight: 100!important;
 /*     font-size:14px; */
     height:100%;
     margin:0px;
@@ -610,4 +608,13 @@ color: #fff;
 }
 .ui-btn-active{
   background-color: #B3F1B7!important;
+}
+#semafore{
+  margin-top: -100px;
+position: absolute;
+right: 10px;
+text-align: right;
+}
+.ui-controlgroup, fieldset.ui-controlgroup {
+  margin: 0;
 }

@@ -45,7 +45,7 @@ var services = {
       var c;
       for( var  i = 0; i < val.length; i++ ){
 	if( i%5 == 0 ){
-	  c = $("<div>");
+	  c = $("<div class='value-cont'>");
 	  result = result.add(c);
 	}
 	if( val[i] == "more" ){
@@ -57,10 +57,10 @@ var services = {
       }
       
       //result = result.add( c = $("<div/>", {class: "last"}) )
-      for(i in this.currency){
-	  if(!this.currency.hasOwnProperty (i) ) continue;
-	  result = result.add( "<a href='#' class='ui-btn ui-corner-all currency' value='" + i + "'>" + this.currency[i].name + "</a>" );
-      }
+//       for(i in this.currency){
+// 	  if(!this.currency.hasOwnProperty (i) ) continue;
+// 	  result = result.add( "<a href='#' class='ui-btn ui-corner-all currency' value='" + i + "'>" + this.currency[i].name + "</a>" );
+//       }
       return result;
       
     }
