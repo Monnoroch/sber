@@ -205,6 +205,11 @@ var app = {
 	$("#route-btn").click(function(){
                 $("#map").maps("addRoute", self.data[self.currentInfoId])
         })
+	
+	$("#enable-super-placemark").on("click", function(){
+	  $(this).toggleClass("on");
+	  $("#map").maps({enableSuperPlacemark:  !$("#map").maps("option", "enableSuperPlacemark" ) })
+	})
 
 	this.loadData();
     },

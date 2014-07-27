@@ -1,7 +1,8 @@
 $.widget( "custom.maps", {
   // default options
   options: {
-    data:{}
+    data:{},
+    enableSuperPlacemark: false,
   },
   _create: function() {
     var self = this;
@@ -38,9 +39,37 @@ $.widget( "custom.maps", {
 
             return false;
         })
+	
 
         self.map.events.add('click', function (e) {
             self.map.balloon.close();
+	    if(self.options.enableSuperPlacemark){
+	      var coords = e.get('coords');
+	      
+	      if( self.superPlacemark ){
+		self.map.geoObjects.remove( self.superPlacemark );
+	      }
+	      
+	      self.superPlacemark = new ymaps.Placemark(coords, {}, {
+		iconLayout: 'default#imageWithContent',
+		// iconImageClipRect: [[0,0], [26, 46]],
+		iconImageHref: 'img/blueDotIcon.png',
+		iconImageSize: [34, 41],
+		iconImageOffset: [-17, -20],
+		// Определим интерактивную область над картинкой.
+		iconShape: {
+		    type: 'Rectangle',
+		    coordinates: [ [0 - 27, 0 - 31], [27, 31] ]
+		},
+		//iconColor: (item.load.color == "yellow") ? "orange" : item.load.color,
+		hideIconOnBalloonOpen: false,
+		balloonCloseButton: false,
+		balloonMinHeight: 120
+	      });
+	      self.findRoute(coords);
+	      self.map.geoObjects.add(self.superPlacemark);
+	    }
+	    
         });
 
         self.map.events.add('balloonopen', function(e){
@@ -59,6 +88,10 @@ $.widget( "custom.maps", {
       else ymaps.ready(function(){
         self.getService("get_money");
       })
+    }
+    if( (key == "enableSuperPlacemark") && (!value) ){
+      self.map.geoObjects.remove( self.superPlacemark );
+      self.superPlacemark = false;
     }
   },
 

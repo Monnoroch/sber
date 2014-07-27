@@ -572,7 +572,7 @@ span.rur span:before { content: '\2013'; }
 
 #menu, #menu .ui-panel-inner{
   padding: 0;
-  top: 43px;
+  top: 42px;
 /*   background: #389F41; */
 }
 
@@ -592,7 +592,16 @@ span.rur span:before { content: '\2013'; }
 
 .ui-header{
   background-color: #389F41!important;
+  border: none;
 }
+
 .ui-header .ui-title{
 color: #fff;
+}
+
+.ui-btn.on{
+ background: #B3F1B7!important; 
+}
+.ui-btn-active{
+  background-color: #B3F1B7!important;
 }
